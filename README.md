@@ -1,6 +1,4 @@
 # PP海淘
-
-
 ## 使用技术
 
 1. [meteor](https://www.meteor.com/) 全栈node框架
