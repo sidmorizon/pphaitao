@@ -1,4 +1,4 @@
-// { "path" : "models/__modelName__.next.js" }
+// { "path" : "shared/models/__modelName__.next.js" }
 
 export var __modelName__ = new Mongo.Collection('__modelName__');
 

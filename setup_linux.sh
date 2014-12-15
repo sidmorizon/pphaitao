@@ -5,15 +5,15 @@
 
 # 安装node
 echo ----------------------- INSTALLING node
-sudo apt-get install nodejs
+which node || sudo apt-get install nodejs
 # 安装meteor
 echo ----------------------- INSTALLING meteor
-curl https://install.meteor.com/ | sh
+which meteor || curl https://install.meteor.com/ | sh
 # 安装fish
 echo ----------------------- INSTALLING fish
-sudo apt-get install fish
-# 安装node包：orion
+which fish || sudo apt-get install fish
+# 安装node包：orion代码生成器
 echo ----------------------- INSTALLING node orion-cli
-npm install -g orion-cli
+npm list -g orion-cli || npm install -g orion-cli
 # 安装git
 

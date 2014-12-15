@@ -1,4 +1,4 @@
-# { "path" : "routes/mainRoutes.coffee" }
+# { "path" : "shared/routes/mainRoutes.coffee" }
 
 Router.route '/', ->
   this.render 'home'
