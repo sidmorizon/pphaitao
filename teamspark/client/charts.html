@@ -1,0 +1,38 @@
+<template name="charts">
+  <div class="navbar spark-controls">
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="dropdown">
+            </li>
+          </ul>
+          <ul class="nav pull-right">
+            <li class="dropdown">
+            </li>
+            <li class="dropdown">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gridster charts">
+    <ul>
+      {{#each widgets}}
+      <li data-row="{{row}}" data-col="{{col}}" data-sizex="{{size_x}}" data-sizey="{{size_y}}" data-name="{{name}}" class="gs_w">
+        <div class="chart-header">
+          {{title}}
+        </div>
+        <div class="chart-body">
+          <div id="chart-{{name}}">
+            <svg></svg>
+          </div>
+          {{{chart}}}
+
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</template>

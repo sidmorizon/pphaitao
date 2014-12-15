@@ -28,7 +28,11 @@
 2. 浏览meteor包市场(https://atmospherejs.com/)
 3. 删除`insecure`和`autopublish`包(输入`meteor list`查看安装的meteor包)
 
+## 环境初始化自动安装脚本
 
+```bash
+$ sh ./setup_linux.sh
+```
 
 ## 部署准备 TODO
 

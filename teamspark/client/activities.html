@@ -1,0 +1,97 @@
+<template name="activities">
+  <div class="activity-list">
+    {{#if isTeamActivity}}
+      {{#each ts.members.ordered}}
+        {{>member}}
+      {{/each}}
+    {{else}}
+      {{#each ts.projects.ordered}}
+        {{>project}}
+      {{/each}}
+    {{/if}}
+  </div>
+  <div class="toolbar-bottom">
+    <div class="btn-group" id="filter-type" data-toggle="buttons-radio">
+      <button class="btn {{ isTeamActivity }}" id="team-activity" title="Team Activities"><i class="icon-user"></i>Team Activity</button>
+      <button class="btn {{ isProjectActivity }}" id="project-activity" title="Project Activities"><i class="icon-group">Project Activity</i></button>
+    </div>
+  </div>
+</template>
+<template name="member">
+  <div class="member {{onlineClass}}">
+    <div class="author-info clearfix">
+      <img class="avatar" src="{{avatar}}" alt="{{username}}" title="{{username}}" />
+      <h5>{{username}}</h5>
+      <p><small>Contribution: {{points}}points, online: {{onlineTime}}</small></p>
+      {{#if description}}
+      <p>{{description}}</p>
+      {{/if}}
+    </div>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="#">submitted: {{totalSubmitted null}}</a></li>
+              <li><a href="#">on-going: {{totalUnfinished null}}</a></li>
+              <li><a href="#">finished: {{totalFinished null}}</a></li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="audit-trail-container hide">
+      <p>Rencent Activities: </p>
+      <ul>
+        {{#each auditTrails}}
+        {{>audit}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+</template>
+
+<template name="project">
+  <div class="project">
+    <div class="author-info clearfix">
+      <img class="avatar" src="{{avatar}}" alt="{{name}}" title="{{name}}" />
+      <h5>{{name}}</h5>
+      <p>{{description}}</p>
+    </div>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="#">Ongoing: {{totalUnfinished null}}</a></li>
+              <li><a href="#">Important: {{totalImportant null}}</a></li>
+              <li><a href="#">Urgent: {{totalUrgent null}}</a></li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="audit-trail-container hide">
+      <p>Recent Activities: </p>
+      <ul>
+        {{#each auditTrails}}
+        {{>audit}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>
+
+<template name="audit">
+  <li><small>
+    {{#if showInfo}}
+    {{{info}}}
+    {{else}}
+    {{{content}}}
+    {{/if}}
+  </small><small class="insignificant">{{created}}</small></li>
+
+</template>

@@ -1,0 +1,163 @@
+<template name="sparks">
+  <div class="sparks">
+    {{#each sparks}}
+    {{>spark}}
+    {{/each}}
+  </div>
+</template>
+
+
+
+<template name="spark">
+  <div class="spark {{finishedStyle}}" id="{{_id}}">
+    <div class="avatar">
+      <img class="avatar" src="{{author.avatar}}" alt="{{author.username}}" title="{{author.username}}" />
+      <p><i class="{{typeObj.icon}} {{urgentStyle}} {{importantStyle}}" title="{{info}}"></i></p>
+    </div>
+    <div class="spark-container">
+      <div class="title">
+        <h5>
+          <a href="#">{{author.username}}</a> submitted a <a href="#" class="edit-type" data-id="{{_id}}" data-spark-type="{{typeObj.id}}"><i class="{{typeObj.icon}}"></i>{{typeObj.name}}</a>
+          <ul class="pull-right nav spark-toolbox">
+            <li class="support {{supported}}"><a href="#" title="vote up"><i class="icon-thumbs-up"></i></a></li>
+            <li class="upload"><a href="#" title="upload files"><i class="icon-upload"></i></a></li>
+            <li class="edit"><a href="#" title="edit content"><i class="icon-edit"></i></a></li>
+            <li class="tag"><a href="#" class="edit-tags" data-id="{{_id}}"><i class="icon-tags"></i></a> </li>
+            {{#if canFinish}}
+            <li class="finish"><a href="#" title="Mark my work as finished"><i class="icon-ok"></i></a></li>
+            {{/if}}
+            {{#if canVerify}}
+            <li class="verify"><a href="#" title="Mark it as verified"><i class="icon-ok"></i></a> </li>
+            {{/if}}
+          </ul>
+        </h5>
+        <p style="margin-top: 10px;">
+          <span>{{created}}</span> |
+          <span>Tags: <b class="tags">{{showTags}}</b></span> |
+          <span>Projects: <a href="#" class="edit-project" data-id="{{_id}}" data-project-id="{{project._id}}">{{project.name}}</a></span> |
+          <span>Priority: <a href="#" class="edit-priority" data-id="{{_id}}" data-priority="{{priority}}">{{priority}}</a></span> |
+          <span>Deadline: <a href="#" class="edit-deadline" data-id="{{_id}}" data-deadline="{{deadline}}">{{expired}}</a></span> |
+          {{#if isCurrentOwner}}
+          <span>Points: <a href="#" class="edit-points size{{points}}" data-id="{{_id}}" data-points="{{points}}">{{points}}</a></span> |
+          {{else}}
+          <span>Total Points: {{totalPoints}}</span> |
+          {{/if}}
+          <span>Last Update: {{updated}}</span>
+        </p>
+      </div>
+      <div class="content">
+        <div class="modal-header">
+          <h4>
+            <b>#{{issueId}}</b>: {{title}}
+            <div class="pull-right">
+            {{#if supporters}}
+            <span class="small">Supporters:</span> <ul>{{{showSupporters}}}</ul>
+            {{/if}}
+            </div>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <p>{{{content}}}</p>
+          {{#if hasImages}}
+          <hr/>
+          <p>{{images.length}} images: </p>
+          <div class="carousel slide" id="{{_id}}-img">
+            <div class="carousel-inner" data-interval="false" >
+              {{#each images}}
+              <div class="item">
+                <img src="{{url}}" alt="{{filename}}" />
+                <div class="carousel-caption">
+                  <p>Image size: {{size}} bytes | Download: <a href="{{url}}">{{filename}}</a></p>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+            {{#if hasMoreImages}}
+            <a class="left carousel-control" href="#{{_id}}-img" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="#{{_id}}-img" data-slide="next">›</a>
+            {{/if}}
+          </div>
+          {{/if}}
+
+          {{#if hasFiles}}
+          <hr/>
+          <p>{{files.length}} files: </p>
+          <ul class="files">
+            {{#each files}}
+            <li><a href="{{url}}"><i class="icon-file"></i>{{filename}}</a><span class="small insignificant"> ({{size}} bytes)</span></li>
+            {{/each}}
+          </ul>
+          {{/if}}
+        </div>
+        <div class="modal-footer">
+          <ul class="nav pull-left owners">
+            {{#if allocated}}
+              <a href="#" class="edit-owners" data-id="{{_id}}"><i class="icon-tasks"></i>Assign</a> to: <ul>{{{showOwners}}}</ul>
+            {{else}}
+              <a href="#" class="edit-owners" data-id="{{_id}}"><i class="icon-tasks"></i>Assign</a>
+            {{/if}}
+          </ul>
+          <ul class="nav pull-left finishers">
+            {{#if finishers}}
+            Finished: {{{showFinishers}}}
+            {{/if}}
+          </ul>
+          <ul class="nav pull-right">
+            <li class="show-comments"><a href="#"><i class="icon-comments-alt"></i>Discussion ({{totalComments}})</a></li>
+            <li class="show-audits"><a href="#"><i class="icon-book"></i>History ({{totalAudits}})</a></li>
+          </ul>
+        </div>
+        <div class="comment-box hide comments">
+          {{>commentInput}}
+          <ul class="comment-list">
+          {{#each reversedComments}}
+            {{>comment}}
+          {{/each}}
+          </ul>
+        </div>
+        <div class="comment-box hide audits">
+          <ul class="comment-list audit-list">
+            {{#each reversedAudits}}
+            {{>comment}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<template name="commentInput">
+  <form id="create-comment-form" class="form-horizontal">
+    <div class="control-group">
+      <img src="{{avatar}}" class="avatar-medium">
+      <div class="controls">
+        <input type="hidden" name="spark-id" value="{{_id}}" />
+        <textarea id="id-content" name="content" rows="1" placeholder="Share your thoughts"></textarea>
+        <button type="button" class="btn btn-green">Publish</button>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="comment">
+  <li class="comment-item">
+    <div class="comment-tools hide">
+      <a>Delete</a>
+      <a>Reply</a>
+    </div>
+    <div class="row">
+      <div class="span1">
+        <img src="{{author.avatar}}" class="avatar-medium">
+      </div>
+      <div class="span7">
+        <div class="author">
+          <a href="#">{{author.username}}</a>
+          <span class="pull-right">{{created}}</span>
+        </div>
+        <p>{{{content}}}</p>
+      </div>
+    </div>
+  </li>
+</template>
